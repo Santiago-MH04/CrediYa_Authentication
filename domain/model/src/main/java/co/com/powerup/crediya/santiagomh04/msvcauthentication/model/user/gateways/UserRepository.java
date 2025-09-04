@@ -1,0 +1,12 @@
+package co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.gateways;
+
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.User;
+import reactor.core.publisher.Mono;
+
+public interface UserRepository {
+    Mono<User> save(User user);
+    Mono<Boolean> existsByEmail(String email);
+}
+
+
+
