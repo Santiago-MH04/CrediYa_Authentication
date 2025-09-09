@@ -1,6 +1,4 @@
-package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.config
-
--authentication.r2dbc.config;
+package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.config;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

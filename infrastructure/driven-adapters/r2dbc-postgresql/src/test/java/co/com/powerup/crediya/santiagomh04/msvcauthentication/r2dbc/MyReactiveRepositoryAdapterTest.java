@@ -1,6 +1,4 @@
-package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc
-
--authentication.r2dbc;
+package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc;
 
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.repositories.MyReactiveRepository;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.adapters.MyReactiveRepositoryAdapter;
