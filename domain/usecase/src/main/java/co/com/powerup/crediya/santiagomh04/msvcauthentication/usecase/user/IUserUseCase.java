@@ -18,6 +18,7 @@ public class IUserUseCase implements UserUseCase{
     @Override
     public Mono<User> createUser(User user) {
         return this.userValidator.validateUser(user)
+                // Assign ROLE_APPLICANT by default
             .then(this.repoRole.findByName(Role.RoleName.ROLE_APPLICANT.name()))
             .flatMap(role -> {
                 user.setRole(role);

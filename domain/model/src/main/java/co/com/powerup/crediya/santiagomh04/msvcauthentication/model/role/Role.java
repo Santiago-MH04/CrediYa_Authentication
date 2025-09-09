@@ -12,14 +12,14 @@ public class Role {
     ROLE_AGENT(2L, "ROLE_AGENT", "Represents a user who manages applicants."),
     ROLE_ADMIN(3L, "ROLE_ADMIN", "Represents a user with full administrative privileges.");*/
 
+    private Long id;
+    private String name;
+      /*private RoleName name;*/
+    private String description;
+
     public enum RoleName{
         ROLE_APPLICANT,
         ROLE_AGENT,
         ROLE_ADMIN;
     }
-
-    private Long id;
-    private String name;
-        /*private RoleName name;*/
-    private String description;
 }
