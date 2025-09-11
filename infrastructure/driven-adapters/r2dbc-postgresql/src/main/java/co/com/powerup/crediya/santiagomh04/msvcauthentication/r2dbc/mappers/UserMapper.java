@@ -1,4 +1,4 @@
-package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.mapper;
+package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.mappers;
 
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.Role;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.gateways.RoleRepository;

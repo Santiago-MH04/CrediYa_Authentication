@@ -11,14 +11,6 @@ spring:
       path: "/h2"
   profiles:
     include: null
-adapters:
-  r2dbc:
-    host: "localhost"
-    port: 5432
-    database: "crediya_db"
-    schema: "public"
-    username: "postgres"
-    password: "sasa"
 management:
   endpoints:
     web:
@@ -30,3 +22,17 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+
+routes:
+  paths:
+    users: "api/v1/users"
+    userById: "api/v1/users/{id}"
+
+adapters:
+  r2dbc:
+    host: "localhost"
+    port: 5432
+    database: "crediya_db"
+    schema: "public"
+    username: "postgres"
+    password: "sasa"

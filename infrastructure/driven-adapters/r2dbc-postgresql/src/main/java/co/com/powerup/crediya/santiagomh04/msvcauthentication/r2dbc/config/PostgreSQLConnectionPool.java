@@ -1,6 +1,4 @@
-package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.config
-
--authentication.r2dbc.config;
+package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.config;
 
 import io.r2dbc.pool.ConnectionPool;
 import io.r2dbc.pool.ConnectionPoolConfiguration;

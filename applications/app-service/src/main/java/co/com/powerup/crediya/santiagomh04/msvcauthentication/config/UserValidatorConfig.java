@@ -5,11 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
 @Configuration
-@ComponentScan(basePackages = "co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user",
+@ComponentScan(basePackages = "co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user.validations",
     includeFilters = {
-        @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+UseCase$")
+        @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+UserValidator$")
     },
     useDefaultFilters = false
 )
-public class UseCasesConfig {
+public class UserValidatorConfig {
 }
