@@ -1,6 +1,6 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.api.config;
 
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.Handler;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.apiHandler.Handler;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.RouterRest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

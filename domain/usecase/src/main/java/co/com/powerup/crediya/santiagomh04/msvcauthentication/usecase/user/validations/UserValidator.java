@@ -18,7 +18,6 @@ import java.util.stream.Stream;
 public class UserValidator {
     private static final String EMAIL_FORMAT_REGEX = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
     private static final String PASSWORD_FORMAT_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$";
-        /*private static final String PASSWORD_FORMAT_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$\n";*/
     private static final String TELEPHONE_FORMAT_REGEX = "\\d{10}";
 
     private static final BigInteger LOWER_BOUND = new BigInteger("0");
