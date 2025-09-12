@@ -1,5 +1,6 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.api;
 
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.apiHandler.Handler;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

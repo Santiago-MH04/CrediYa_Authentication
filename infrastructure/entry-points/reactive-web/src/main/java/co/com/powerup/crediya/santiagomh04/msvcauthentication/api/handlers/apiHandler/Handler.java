@@ -1,4 +1,4 @@
-package co.com.powerup.crediya.santiagomh04.msvcauthentication.api;
+package co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.apiHandler;
 
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.UserRequestDTO;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.mappers.UserApiMapper;

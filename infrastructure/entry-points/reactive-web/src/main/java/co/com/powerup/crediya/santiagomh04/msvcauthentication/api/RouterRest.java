@@ -1,5 +1,6 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.api;
 
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.apiHandler.Handler;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.paths.UserPaths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +19,7 @@ public class RouterRest {
     private final Handler userHandler;
 
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(/*Handler handler*/) {
+    public RouterFunction<ServerResponse> routerFunction() {
         return route(POST(this.userPaths.getUsers()), this.userHandler::listenPOSTUseCase);
 
         /*return route(GET("/api/usecase/path"), handler::listenGETUseCase)
