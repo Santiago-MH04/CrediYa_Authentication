@@ -2,7 +2,7 @@ package co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.adapters;
 
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.Role;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.gateways.RoleRepository;
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.mapper.RoleMapper;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.mappers.RoleMapper;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.r2dbc.repositories.RoleReactiveRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

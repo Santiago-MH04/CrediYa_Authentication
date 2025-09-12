@@ -1,6 +1,5 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user.validations;
 
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.business.BusinessException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ErrorCauses;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ValidationException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.User;
@@ -18,7 +17,8 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserValidator {
     private static final String EMAIL_FORMAT_REGEX = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
-    private static final String PASSWORD_FORMAT_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$\n";
+    private static final String PASSWORD_FORMAT_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$";
+        /*private static final String PASSWORD_FORMAT_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$\n";*/
     private static final String TELEPHONE_FORMAT_REGEX = "\\d{10}";
 
     private static final BigInteger LOWER_BOUND = new BigInteger("0");
