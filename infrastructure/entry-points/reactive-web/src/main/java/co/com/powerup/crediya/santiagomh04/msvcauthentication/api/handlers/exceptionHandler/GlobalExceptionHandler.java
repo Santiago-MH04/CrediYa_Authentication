@@ -1,8 +1,9 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.exceptionHandler;
 
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.ErrorResponseDTO;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ValidationException;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
-import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
@@ -10,15 +11,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.*;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Order(-2)
 @Component
 public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
+
+    private static final Map<Class<? extends Throwable>, HttpStatus> EXCEPTION_STATUS_MAP = Map.of(
+        ValidationException.class, HttpStatus.BAD_REQUEST
+        // Add more exceptions here and their HttpStatus codes when necessary
+    );
 
     public GlobalExceptionHandler(ErrorAttributes errorAttributes, ApplicationContext applicationContext, ServerCodecConfigurer serverCodecConfigurer) {
         super(errorAttributes, new WebProperties.Resources(), applicationContext);
@@ -32,9 +38,22 @@ public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
     }
 
     private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
-        Map<String, Object> errorProperties = getErrorAttributes(request, ErrorAttributeOptions.defaults());
-        return ServerResponse.status(HttpStatus.BAD_REQUEST.value())
+        Throwable error = getError(request);
+        HttpStatus status = this.determineHttpStatus(error);
+
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+            LocalDateTime.now(),
+            request.path(),
+            error.getMessage(),
+            status.toString()
+        );
+
+        return ServerResponse.status(status.value())
             .contentType(MediaType.APPLICATION_JSON)
-            .body(BodyInserters.fromValue(errorProperties));
+            .bodyValue(errorResponse);
+    }
+
+    private HttpStatus determineHttpStatus(Throwable error) {
+        return EXCEPTION_STATUS_MAP.getOrDefault(error.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
