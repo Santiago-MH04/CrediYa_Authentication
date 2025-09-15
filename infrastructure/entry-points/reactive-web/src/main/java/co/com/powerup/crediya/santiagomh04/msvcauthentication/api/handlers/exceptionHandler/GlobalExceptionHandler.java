@@ -1,6 +1,6 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.exceptionHandler;
 
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.loggingHelpers.ReactiveHandlerSupport;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.loggingHelpers.HandlerLoggingSupport;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ValidationException;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
 
-    private final ReactiveHandlerSupport loggingSupport;
+    private final HandlerLoggingSupport loggingSupport;
 
     private static final Map<Class<? extends Throwable>, HttpStatus> EXCEPTION_STATUS_MAP = Map.of(
         ValidationException.class, HttpStatus.BAD_REQUEST
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
         ErrorAttributes errorAttributes,
         ApplicationContext applicationContext,
         ServerCodecConfigurer serverCodecConfigurer,
-        ReactiveHandlerSupport loggingSupport
+        HandlerLoggingSupport loggingSupport
     ) {
         super(errorAttributes, new WebProperties.Resources(), applicationContext);
         this.setMessageWriters(serverCodecConfigurer.getWriters());
@@ -45,51 +45,20 @@ public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
 
     /*private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         Throwable error = getError(request);
-        HttpStatus status = this.determineHttpStatus(error);
-
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
-            LocalDateTime.now(),
-            request.path(),
-            error.getMessage(),
-            status.toString()
-        );
-
-        // Log the error with its path and complete stacktrace
-        *//*log.error("Error handling request at path {}: {}", request.path(), error.getMessage(), error);*//*
-
-        *//*return ReactiveMDC.withLoggingContext(correlationId -> {
-            log.error("❌ Error handling request at path {} [correlationId={}]: {}", request.path(), correlationId, error.getMessage(), error);
-
-            return ServerResponse.status(status.value())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header("correlationId", correlationId)
-                    .bodyValue(errorResponse);
-        });*//*
-
-        *//*return ReactiveMDC.withLoggingAndErrorHandling(correlationId ->
-            ServerResponse.status(status.value())
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("correlationId", correlationId)
-                .bodyValue(errorResponse),
-            String.format("❌ Error handling request at path %s", request.path())
-        );*//*
-
-        return ReactiveMDC.withErrorLogging(correlationId ->
-                ServerResponse.status(status.value())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header("correlationId", correlationId)
-                    .bodyValue(errorResponse),
-            request,
-            error
-        );
+        HttpStatus status = determineHttpStatus(error);
+        return this.loggingSupport.handleError(request, error, status);
     }*/
 
     private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         Throwable error = getError(request);
         HttpStatus status = determineHttpStatus(error);
-        return this.loggingSupport.handleError(request, error, status);
-    }
 
+        return this.loggingSupport.handleError(
+            request,
+            error,
+            status
+        );
+    }
 
     private HttpStatus determineHttpStatus(Throwable error) {
         return EXCEPTION_STATUS_MAP.getOrDefault(error.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
