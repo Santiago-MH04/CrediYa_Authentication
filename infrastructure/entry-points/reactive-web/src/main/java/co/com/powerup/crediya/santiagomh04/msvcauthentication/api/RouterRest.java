@@ -1,6 +1,6 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.api;
 
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.apiHandler.Handler;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.apiHandler.UserAPIHandler;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.paths.UserPaths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class RouterRest {
 
     private final UserPaths userPaths;
-    private final Handler userHandler;
+    private final UserAPIHandler userHandler;
 
     @Bean
     public RouterFunction<ServerResponse> routerFunction() {
