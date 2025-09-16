@@ -30,6 +30,7 @@ routes:
     users: "api/v1/users"
     userById: "api/v1/users/{id}"
 
+  #PostgreSQL
 adapters:
   r2dbc:
     host: "localhost"

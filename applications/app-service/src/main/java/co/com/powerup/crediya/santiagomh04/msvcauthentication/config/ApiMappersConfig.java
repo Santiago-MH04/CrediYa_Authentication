@@ -8,8 +8,7 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan(basePackages = "co.com.powerup.crediya.santiagomh04.msvcauthentication.api.mappers",
     includeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+ApiMapper")
-    }/*,
-    useDefaultFilters = false*/
+    }
 )
 public class ApiMappersConfig {
 }

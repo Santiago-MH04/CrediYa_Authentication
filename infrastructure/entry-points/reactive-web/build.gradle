@@ -9,4 +9,8 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
         // https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+        // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webflux-ui
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${openapiVersion}"
+
 }
