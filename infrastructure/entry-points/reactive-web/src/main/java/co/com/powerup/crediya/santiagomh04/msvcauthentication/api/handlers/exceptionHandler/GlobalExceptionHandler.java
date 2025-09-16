@@ -43,12 +43,6 @@ public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
         return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
     }
 
-    /*private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
-        Throwable error = getError(request);
-        HttpStatus status = determineHttpStatus(error);
-        return this.loggingSupport.handleError(request, error, status);
-    }*/
-
     private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         Throwable error = getError(request);
         HttpStatus status = determineHttpStatus(error);
