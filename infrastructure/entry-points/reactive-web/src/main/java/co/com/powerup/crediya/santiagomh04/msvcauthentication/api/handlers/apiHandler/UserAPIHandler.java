@@ -45,6 +45,4 @@ public class UserAPIHandler {
             UserResponseDTO::id // 👈 Only its ID is logged
         );
     }
-
-
 }

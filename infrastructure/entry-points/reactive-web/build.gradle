@@ -9,8 +9,10 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
         // https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-
         // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webflux-ui
     implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${openapiVersion}"
 
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
