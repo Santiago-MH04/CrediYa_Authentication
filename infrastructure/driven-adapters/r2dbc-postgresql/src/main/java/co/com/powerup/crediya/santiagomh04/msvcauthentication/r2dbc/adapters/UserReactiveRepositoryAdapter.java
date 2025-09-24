@@ -18,7 +18,13 @@ public class UserReactiveRepositoryAdapter implements UserRepository {
     @Override
     public Mono<User> save(User user) {
         return this.repoUserReactive.save(this.userMapper.toEntity(user))
-            .flatMap(userMapper::toDomain);
+            .flatMap(this.userMapper::toDomain);
+    }
+
+    @Override
+    public Mono<User> findByIdentificationNumber(String identificationNumber) {
+        return this.repoUserReactive.findByIdentificationNumber(identificationNumber)
+            .flatMap(this.userMapper::toDomain);
     }
 
     @Override
