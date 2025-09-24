@@ -1,6 +1,7 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.exceptionHandler;
 
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.loggingHelpers.HandlerLoggingSupport;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.business.BusinessException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ValidationException;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
@@ -21,8 +22,9 @@ public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
 
     private final HandlerLoggingSupport loggingSupport;
 
-    private static final Map<Class<? extends Throwable>, HttpStatus> EXCEPTION_STATUS_MAP = Map.of(
-        ValidationException.class, HttpStatus.BAD_REQUEST
+    private static final Map<Class<? extends Throwable>, HttpStatus> EXCEPTION_STATUS_MAP = Map.ofEntries(
+        Map.entry(ValidationException.class, HttpStatus.BAD_REQUEST),
+        Map.entry(BusinessException.class, HttpStatus.NOT_FOUND)
         // Add more exceptions here and their HttpStatus codes when necessary
     );
 
