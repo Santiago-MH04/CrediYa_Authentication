@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
@@ -67,7 +68,8 @@ public class RouterRest {
         /*@RouterOperation()*/
     })
     public RouterFunction<ServerResponse> routerFunction() {
-        return route(POST(this.userPaths.getUsers()), this.userHandler::listenPOSTUseCase);
+        return route(POST(this.userPaths.getUsers()), this.userHandler::listenPOSTUseCase)
+            .andRoute(GET(this.userPaths.getUserByIdentificationNumber()), this.userHandler::listenGETUseCase);
 
         /*return route(GET("/api/usecase/path"), handler::listenGETUseCase)
             .andRoute(POST("/api/usecase/otherpath"), handler::listenPOSTUseCase)

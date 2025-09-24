@@ -29,6 +29,7 @@ routes:
   paths:
     users: "api/v1/users"
     userById: "api/v1/users/{id}"
+    userByIdentificationNumber: "api/v1/users/{identificationNumber}"
 
   #PostgreSQL
 adapters:
