@@ -1,5 +1,6 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user;
 
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.business.BusinessException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ValidationException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.Role;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.gateways.RoleRepository;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -43,7 +45,7 @@ class IUserUseCaseTest {
 
     @BeforeEach
     void setup() {
-        user = User.builder()
+        this.user = User.builder()
             .name("Pepito")
             .lastName("Pérez")
             .address("Calle de prueba 123")
@@ -55,7 +57,7 @@ class IUserUseCaseTest {
             .password("Password123!")
             .build();
 
-        role = Role.builder()
+        this.role = Role.builder()
             .id(1L)
             .name(Role.RoleName.ROLE_APPLICANT.name())
             .build();
@@ -102,5 +104,36 @@ class IUserUseCaseTest {
         // 2. Run the method to test and veirfy the error
         StepVerifier.create(this.userUseCase.createUser(this.user))
             .verifyError(); // Only verify there’s an error at this stage, the exact error message would be handled by a different layer
+    }
+
+    @Test
+    @DisplayName("Should return the user when searching by a valid identification number")
+    void ShouldReturnUserWhenItExistsSearchingByIdentificationNumber() {
+        // 1. Arrange
+        when(this.userValidator.validateUserSearch("10101010")).thenReturn(Mono.just(this.user));
+
+        // 2. Act & Assert
+        StepVerifier.create(this.userUseCase.findByIdentificationNumber("10101010"))
+            .expectNext(this.user)
+            .verifyComplete();
+
+        verify(this.userValidator).validateUserSearch("10101010");
+    }
+
+    @Test
+    @DisplayName("Should throw error if the identification number provided don’t match to any user registered")
+    void ShouldThrowErrorWhenUserNotFoundSearchingByIdentificationNumber() {
+        // 1. Arrange
+        when(this.userValidator.validateUserSearch("999"))
+            .thenReturn(Mono.error(new BusinessException("User not found")));
+
+        // 2. Act & Assert
+        StepVerifier.create(this.userUseCase.findByIdentificationNumber("999"))
+            .expectErrorMatches(ex -> ex instanceof BusinessException &&
+                ex.getMessage().contains("User not found")
+            )
+            .verify();
+
+        verify(this.userValidator).validateUserSearch("999");
     }
 }

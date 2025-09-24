@@ -126,7 +126,7 @@ class UserValidatorTest {
         StepVerifier.create(this.userValidator.validateUser(this.user))
             .verifyErrorMatches(throwable ->
                 throwable instanceof ValidationException &&
-                        throwable.getMessage().contains("must be at least 18 years old")
+                    throwable.getMessage().contains("must be at least 18 years old")
             );
     }
 
