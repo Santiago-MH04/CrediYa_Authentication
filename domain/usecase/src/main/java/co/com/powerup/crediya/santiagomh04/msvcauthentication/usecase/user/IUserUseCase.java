@@ -28,7 +28,7 @@ public class IUserUseCase implements UserUseCase{
 
     @Override
     public Mono<User> findByIdentificationNumber(String identificationNumber) {
-        return this.repoUser.findByIdentificationNumber(identificationNumber);
+        return this.userValidator.validateUserSearch(identificationNumber);
     }
 
     @Override

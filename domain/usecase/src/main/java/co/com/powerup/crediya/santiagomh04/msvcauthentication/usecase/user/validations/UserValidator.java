@@ -1,5 +1,7 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user.validations;
 
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.business.BusinessException;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.business.InternalCauses;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ErrorCauses;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ValidationException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.User;
@@ -35,6 +37,12 @@ public class UserValidator {
             .then(Mono.defer(() -> validateAge(user.getDateOfBirth())))
             .then(Mono.defer(() -> validateSalaryRange(user.getBaseSalary())));
     }
+
+    public Mono<User> validateUserSearch(String identificationNumber) {
+        return this.repoUser.findByIdentificationNumber(identificationNumber)
+            .switchIfEmpty(Mono.error(new BusinessException(InternalCauses.USER_NOT_FOUND.getMessage())));
+    }
+
 
     //1. Required fields validation
     private Mono<Void> validateRequiredFields(User user) {
