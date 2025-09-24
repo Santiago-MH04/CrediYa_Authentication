@@ -65,6 +65,31 @@ public class RouterRest {
                 }
             )
         ),
+        @RouterOperation(
+            path = "/api/v1/users/{identificationNumber}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET,
+            beanClass = UserAPIHandler.class,
+            beanMethod = "listenGETUseCase",
+            operation = @Operation(
+                operationId = "searchUser",
+                summary = "Searches for an already registered user",
+                description = "Registers a new user with the information provided.",
+                tags = {"User"},
+                responses = {
+                    @ApiResponse(
+                        responseCode = "200",
+                        description = "User found successfully",
+                        content = @Content(schema = @Schema(implementation = UserResponseDTO.class))
+                    ),
+                    @ApiResponse(
+                        responseCode = "404",
+                        description = "User not found",
+                        content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+                    )
+                }
+            )
+        )
         /*@RouterOperation()*/
     })
     public RouterFunction<ServerResponse> routerFunction() {
