@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
@@ -64,10 +65,36 @@ public class RouterRest {
                 }
             )
         ),
+        @RouterOperation(
+            path = "/api/v1/users/{identificationNumber}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET,
+            beanClass = UserAPIHandler.class,
+            beanMethod = "listenGETUseCase",
+            operation = @Operation(
+                operationId = "searchUser",
+                summary = "Searches for an already registered user",
+                description = "Registers a new user with the information provided.",
+                tags = {"User"},
+                responses = {
+                    @ApiResponse(
+                        responseCode = "200",
+                        description = "User found successfully",
+                        content = @Content(schema = @Schema(implementation = UserResponseDTO.class))
+                    ),
+                    @ApiResponse(
+                        responseCode = "404",
+                        description = "User not found",
+                        content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+                    )
+                }
+            )
+        )
         /*@RouterOperation()*/
     })
     public RouterFunction<ServerResponse> routerFunction() {
-        return route(POST(this.userPaths.getUsers()), this.userHandler::listenPOSTUseCase);
+        return route(POST(this.userPaths.getUsers()), this.userHandler::listenPOSTUseCase)
+            .andRoute(GET(this.userPaths.getUserByIdentificationNumber()), this.userHandler::listenGETUseCase);
 
         /*return route(GET("/api/usecase/path"), handler::listenGETUseCase)
             .andRoute(POST("/api/usecase/otherpath"), handler::listenPOSTUseCase)
