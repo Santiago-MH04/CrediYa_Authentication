@@ -39,7 +39,8 @@ public class RouterTestConfig {
     @Bean
     public UserPaths userPaths() {
         UserPaths mockUserPaths = mock(UserPaths.class);
-        when(mockUserPaths.getUsers()).thenReturn("/api/v1/users");
+            when(mockUserPaths.getUsers()).thenReturn("/api/v1/users");
+            when(mockUserPaths.getUserByIdentificationNumber()).thenReturn("/api/v1/users/{identificationNumber}");
         return mockUserPaths;
     }
 

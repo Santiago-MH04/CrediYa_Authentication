@@ -27,9 +27,10 @@ public class UserAPIHandler {
             .map(String::trim)
             .filter(item -> !item.isBlank())
             .flatMap(this.userUseCase::findByIdentificationNumber)
-            .flatMap(user -> ServerResponse.ok()
+            .map(this.userApiMapper::toResponse)
+            .flatMap(dto -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(user)
+                .bodyValue(dto)
             );
     }
 

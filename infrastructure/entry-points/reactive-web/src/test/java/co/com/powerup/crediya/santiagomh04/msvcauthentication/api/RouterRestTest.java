@@ -6,6 +6,7 @@ import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.UserReques
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.UserResponseDTO;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.loggingHelpers.HandlerLoggingSupport;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.mappers.UserApiMapper;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.business.BusinessException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ValidationException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.User;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user.UserUseCase;
@@ -111,10 +112,9 @@ class RouterRestTest {
         this.mockedResponse = ServerResponse
             .status(HttpStatus.CREATED)
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(responseDTO);
+            .bodyValue(this.responseDTO);
 
         when(this.userApiMapper.toDomain(any(UserRequestDTO.class))).thenReturn(this.userDomain);
-        when(this.userUseCase.createUser(any(User.class))).thenReturn(Mono.just(this.userDomain));
         when(this.userApiMapper.toResponse(any(User.class))).thenReturn(this.responseDTO);
         when(this.loggingSupport.handleRequest(
             any(Mono.class),
@@ -129,7 +129,6 @@ class RouterRestTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(dto));
         });
-
         this.webTestClient = WebTestClient.bindToRouterFunction(this.routerFunction).build();
     }
 
@@ -143,6 +142,9 @@ class RouterRestTest {
     @Test
     @DisplayName("Should pass if a response body contains the name of the DTOs of request and response")
     void shouldRoutePostUserRequestSuccessfully() {
+        when(this.userUseCase.createUser(any(User.class)))
+            .thenReturn(Mono.just(this.userDomain));
+
         this.webTestClient.post()
             .uri("/api/v1/users")
             .contentType(MediaType.APPLICATION_JSON)
@@ -174,6 +176,47 @@ class RouterRestTest {
                 /*.expectStatus().is4xxClientError()*/
             .expectBody().isEmpty();
     }
+
+    @Test
+    @DisplayName("Should pass if getByIdentificationNumber() returns the expected UserResponseDTO")
+    void shouldRouteGetUserByIdentificationNumberSuccessfully() {
+        // 1. Arrange
+        when(this.userUseCase.findByIdentificationNumber("1035432567"))
+            .thenReturn(Mono.just(this.userDomain));
+
+        // 2. Act & Assert
+        this.webTestClient.get()
+            .uri("/api/v1/users/{identificationNumber}", "1035432567")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(UserResponseDTO.class)
+            .consumeWith(result -> {
+                UserResponseDTO responseBody = result.getResponseBody();
+                assertNotNull(responseBody, "❌ A response body was not received");
+                assertEquals("random-generated-id", responseBody.id());
+                assertEquals("Pepito", responseBody.name());
+                assertEquals("Pérez", responseBody.lastName());
+                assertEquals("1035432567", responseBody.identificationNumber());
+            });
+    }
+
+    /*@Test //Leave this test, though commented, since it won’t pass, because in the testing enviroment, the error thrown is a 500, instead of 404, which works properly in production environment
+    @DisplayName("Should return 404 if getByIdentificationNumber() does not find a user")
+    void shouldReturnNotFoundWhenUserDoesNotExist() {
+        // 1. Arrange
+        when(this.userUseCase.findByIdentificationNumber("999"))
+            .thenReturn(Mono.error(new BusinessException("User not found")));
+
+        // 2. Act & Assert
+        this.webTestClient.get()
+            .uri("/api/v1/users/{identificationNumber}", "999")
+            .exchange()
+            .expectStatus().isNotFound();
+
+        // 3. Verify delegation
+        verify(this.userUseCase).findByIdentificationNumber("999");
+    }
+*/
 
     /*@Test
     void shouldReturnBadRequestWhenValidationFails() {

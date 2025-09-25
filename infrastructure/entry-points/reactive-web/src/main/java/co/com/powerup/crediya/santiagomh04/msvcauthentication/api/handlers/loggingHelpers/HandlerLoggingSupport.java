@@ -61,7 +61,7 @@ public class HandlerLoggingSupport {
             LocalDateTime.now(),
             request.path(),
             error.getMessage(),
-            status.toString()
+            status.toString().toLowerCase().replaceAll("_", " ")
         );
 
         return ServerResponse.status(status.value())
