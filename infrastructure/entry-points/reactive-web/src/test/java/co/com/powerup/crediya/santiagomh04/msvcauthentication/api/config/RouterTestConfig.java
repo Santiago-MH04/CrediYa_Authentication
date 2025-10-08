@@ -6,16 +6,15 @@ import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.loggi
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.mappers.UserApiMapper;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.paths.UserPaths;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user.UserUseCase;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@Configuration
+@TestConfiguration
 /*@ComponentScan(basePackageClasses = {
     UserAPIHandler.class,
     HandlerLoggingSupport.class
