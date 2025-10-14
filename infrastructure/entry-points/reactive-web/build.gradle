@@ -3,6 +3,7 @@ dependencies {
     implementation project(':model')
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
         // https://mvnrepository.com/artifact/org.mapstruct/mapstruct
@@ -11,6 +12,13 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
         // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webflux-ui
     implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${openapiVersion}"
+
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
