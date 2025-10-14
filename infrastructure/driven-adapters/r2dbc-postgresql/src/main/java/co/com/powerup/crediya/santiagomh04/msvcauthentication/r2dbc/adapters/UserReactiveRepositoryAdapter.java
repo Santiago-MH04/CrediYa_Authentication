@@ -28,6 +28,12 @@ public class UserReactiveRepositoryAdapter implements UserRepository {
     }
 
     @Override
+    public Mono<User> findByEmail(String email) {
+        return this.repoUserReactive.findByEmail(email)
+            .flatMap(this.userMapper::toDomain);
+    }
+
+    @Override
     public Mono<Boolean> existsByEmail(String email) {
         return this.repoUserReactive.existsByEmail(email);
     }
