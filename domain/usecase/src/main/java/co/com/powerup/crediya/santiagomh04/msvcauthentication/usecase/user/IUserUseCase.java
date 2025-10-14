@@ -32,6 +32,11 @@ public class IUserUseCase implements UserUseCase{
     }
 
     @Override
+    public Mono<User> findByEmail(String email) {
+        return this.repoUser.findByEmail(email);
+    }
+
+    @Override
     public Mono<Boolean> existsByEmail(String email) {
         return this.repoUser.existsByEmail(email);
     }
