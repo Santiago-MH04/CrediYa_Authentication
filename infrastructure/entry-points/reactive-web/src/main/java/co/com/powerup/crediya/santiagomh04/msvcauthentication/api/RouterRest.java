@@ -94,7 +94,8 @@ public class RouterRest {
     })
     public RouterFunction<ServerResponse> routerFunction() {
         return route(POST(this.userPaths.getUsers()), this.userHandler::listenPOSTUseCase)
-            .andRoute(GET(this.userPaths.getUserByIdentificationNumber()), this.userHandler::listenGETUseCase);
+            .andRoute(GET(this.userPaths.getUserByIdentificationNumber()), this.userHandler::listenGETUseCase)
+            .andRoute(GET(this.userPaths.getUserByEmail()), this.userHandler::listenGETUseCaseByEmail);
 
         /*return route(GET("/api/usecase/path"), handler::listenGETUseCase)
             .andRoute(POST("/api/usecase/otherpath"), handler::listenPOSTUseCase)

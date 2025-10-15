@@ -10,5 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class UserPaths {
     private String users;
     private String userById;
+    private String userByEmail;
     private String userByIdentificationNumber;
 }
