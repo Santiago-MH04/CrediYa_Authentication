@@ -31,6 +31,8 @@ public class User {
 
     private Role role;
 
+    private boolean active;
+
     public enum DocumentType{
         CC,
         CE,
