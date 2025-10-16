@@ -9,6 +9,7 @@ buildscript {
         mapstructVersion = '1.6.3'
         openapiVersion = '2.8.13'
         jjwtVersion = '0.13.0'
+        jacksonVersion = '3.0.0'
 	}
 }
 

@@ -28,3 +28,5 @@ include ':bcrypt-password'
 project(':bcrypt-password').projectDir = file('./infrastructure/driven-adapters/bcrypt-password')
 include ':jwt-driven-adapter'
 project(':jwt-driven-adapter').projectDir = file('./infrastructure/driven-adapters/jwt-driven-adapter')
+include ':security'
+project(':security').projectDir = file('./infrastructure/entry-points/security')

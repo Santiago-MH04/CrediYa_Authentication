@@ -5,7 +5,6 @@ import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.authent
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.authentication.AccessToken;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.authentication.UserCredentials;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.authentication.gateways.JwtRepository;
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.gateways.RoleRepository;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.gateways.PasswordEncoderRepository;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.gateways.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import reactor.core.publisher.Mono;
 public class IAuthenticationUseCase implements AuthenticationUseCase{
 
     private final UserRepository repoUser;
-    private final RoleRepository repoRole;
     private final PasswordEncoderRepository passwordEncoder;
     private final JwtRepository repoJwt;
 
