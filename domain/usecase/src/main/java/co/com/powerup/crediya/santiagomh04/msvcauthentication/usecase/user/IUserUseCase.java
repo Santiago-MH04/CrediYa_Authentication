@@ -3,6 +3,7 @@ package co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.Role;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.role.gateways.RoleRepository;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.User;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.gateways.PasswordEncoderRepository;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.gateways.UserRepository;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user.validations.UserValidator;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class IUserUseCase implements UserUseCase{
     private final UserValidator userValidator;
 
     private final RoleRepository repoRole;
+    private final PasswordEncoderRepository passwordEncoder;
 
     @Override
     public Mono<User> createUser(User user) {
@@ -22,6 +24,11 @@ public class IUserUseCase implements UserUseCase{
             .then(this.repoRole.findByName(Role.RoleName.ROLE_APPLICANT.name()))
             .flatMap(role -> {
                 user.setRole(role);
+                // Activate user by default
+                user.setActive(true);
+                // Encode user’s password
+                user.setPassword(this.passwordEncoder.hashPassword(user.getPassword()));
+
                 return this.repoUser.save(user);
             });
     }
@@ -29,6 +36,11 @@ public class IUserUseCase implements UserUseCase{
     @Override
     public Mono<User> findByIdentificationNumber(String identificationNumber) {
         return this.userValidator.validateUserSearch(identificationNumber);
+    }
+
+    @Override
+    public Mono<User> findByEmail(String email) {
+        return this.repoUser.findByEmail(email);
     }
 
     @Override

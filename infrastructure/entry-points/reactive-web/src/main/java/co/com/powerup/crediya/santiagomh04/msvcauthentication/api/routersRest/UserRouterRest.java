@@ -1,4 +1,4 @@
-package co.com.powerup.crediya.santiagomh04.msvcauthentication.api;
+package co.com.powerup.crediya.santiagomh04.msvcauthentication.api.routersRest;
 
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.ErrorResponseDTO;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.UserRequestDTO;
@@ -28,7 +28,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 @RequiredArgsConstructor
 @Tag(name = "Users management", description = "Operations related to user creation and retrieval")
-public class RouterRest {
+public class UserRouterRest {
 
     private final UserPaths userPaths;
     private final UserAPIHandler userHandler;
@@ -94,7 +94,8 @@ public class RouterRest {
     })
     public RouterFunction<ServerResponse> routerFunction() {
         return route(POST(this.userPaths.getUsers()), this.userHandler::listenPOSTUseCase)
-            .andRoute(GET(this.userPaths.getUserByIdentificationNumber()), this.userHandler::listenGETUseCase);
+            .andRoute(GET(this.userPaths.getUserByIdentificationNumber()), this.userHandler::listenGETUseCase)
+            .andRoute(GET(this.userPaths.getUserByEmail()), this.userHandler::listenGETUseCaseByEmail);
 
         /*return route(GET("/api/usecase/path"), handler::listenGETUseCase)
             .andRoute(POST("/api/usecase/otherpath"), handler::listenPOSTUseCase)

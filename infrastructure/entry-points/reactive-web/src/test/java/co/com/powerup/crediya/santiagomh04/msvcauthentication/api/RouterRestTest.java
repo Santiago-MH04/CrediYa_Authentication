@@ -6,7 +6,7 @@ import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.UserReques
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.UserResponseDTO;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.loggingHelpers.HandlerLoggingSupport;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.mappers.UserApiMapper;
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.business.BusinessException;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.routersRest.UserRouterRest;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.exceptions.validation.ValidationException;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.user.User;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.usecase.user.UserUseCase;
@@ -23,7 +23,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -48,7 +47,7 @@ import static org.mockito.Mockito.when;
 class RouterRestTest {
 
     @Autowired
-    private RouterRest routerRest;
+    private UserRouterRest routerRest;
 
     @Autowired
     RouterFunction<ServerResponse> routerFunction;

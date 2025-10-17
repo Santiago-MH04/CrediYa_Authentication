@@ -136,4 +136,29 @@ class IUserUseCaseTest {
 
         verify(this.userValidator).validateUserSearch("999");
     }
+
+    @Test
+    @DisplayName("should return a user when the email is registered")
+    void shouldReturnUserWhenEmailExists() {
+        // 👉 1. Arrange
+        when(this.repoUser.findByEmail(this.user.getEmail())).thenReturn(Mono.just(this.user));
+
+        // 👉 2. Act & Assert
+        StepVerifier.create(this.repoUser.findByEmail(this.user.getEmail()))
+            .expectNextMatches(user ->
+                user.getName().equals("Pepito") &&
+                        user.getLastName().equals("Pérez")
+            )
+            .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("should return an empty Mono in case of unexisting email")
+    void shouldReturnEmptyWhenEmailDoesNotExist() {
+        when(this.repoUser.findByEmail("notfound@example.com")).thenReturn(Mono.empty());
+
+        StepVerifier.create(this.repoUser.findByEmail("notfound@example.com"))
+            .expectNextCount(0)
+            .verifyComplete();
+    }
 }

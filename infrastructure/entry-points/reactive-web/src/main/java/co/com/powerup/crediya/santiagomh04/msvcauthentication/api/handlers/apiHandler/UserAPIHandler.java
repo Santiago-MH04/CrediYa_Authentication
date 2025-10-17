@@ -34,6 +34,18 @@ public class UserAPIHandler {
             );
     }
 
+    public Mono<ServerResponse> listenGETUseCaseByEmail(ServerRequest serverRequest) {
+        return Mono.fromCallable(() -> serverRequest.pathVariable("email"))
+            .map(String::trim)
+            .filter(item -> !item.isBlank())
+            .flatMap(this.userUseCase::findByEmail)
+            .map(this.userApiMapper::toResponse)
+            .flatMap(dto -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(dto)
+            );
+    }
+
     public Mono<ServerResponse> listenGETOtherUseCase(ServerRequest serverRequest) {
         // useCase2.logic();
         return ServerResponse.ok().bodyValue("");

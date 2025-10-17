@@ -54,6 +54,9 @@ public class UserEntity {
     @Column("role_id")
     private Long roleId;
 
+    @Column("active")
+    private boolean active;
+
     public enum DocumentType{
         CC,
         CE,
