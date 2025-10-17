@@ -38,10 +38,9 @@ public class SecurityConfig {
             .securityContextRepository(this.jwtSecurityContextRepository)
             .authorizeExchange(exchange ->
                 exchange
-                    .pathMatchers(HttpMethod.GET,"/api/v1/users/{identificationNumber}").hasRole("APPLICANT")
+                    .pathMatchers(HttpMethod.GET,"/api/v1/users/{identificationNumber}")/*.hasRole("APPLICANT")*/.permitAll()
                     .pathMatchers(HttpMethod.GET,"/api/v1/users/email/{email}").hasAnyRole("ADMIN", "AGENT")
                     .pathMatchers(HttpMethod.POST, "/api/v1/users").hasAnyRole("ADMIN", "AGENT")
-                    /*.pathMatchers(HttpMethod.PATCH,"/api/v1/users/{identificationNumber}").hasAnyRole("ADMIN", "AGENT", "APPLICANT")*/
                     .pathMatchers("/api/v1/login").permitAll()
 
                     .pathMatchers(

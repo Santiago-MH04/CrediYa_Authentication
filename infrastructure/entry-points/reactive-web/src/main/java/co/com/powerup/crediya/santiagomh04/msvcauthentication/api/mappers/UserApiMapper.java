@@ -11,7 +11,8 @@ import org.mapstruct.Mappings;
 public interface UserApiMapper {
     @Mappings({
         @Mapping(target = "id", ignore = true),
-        @Mapping(target = "role", ignore = true)
+        @Mapping(target = "role", ignore = true),
+        @Mapping(target = "active", ignore = true)
     })
     User toDomain(UserRequestDTO userRequestDTO);
 

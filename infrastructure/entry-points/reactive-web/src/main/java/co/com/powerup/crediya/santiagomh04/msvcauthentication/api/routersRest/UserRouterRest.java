@@ -1,4 +1,4 @@
-package co.com.powerup.crediya.santiagomh04.msvcauthentication.api;
+package co.com.powerup.crediya.santiagomh04.msvcauthentication.api.routersRest;
 
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.ErrorResponseDTO;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.dto.UserRequestDTO;
@@ -28,7 +28,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 @RequiredArgsConstructor
 @Tag(name = "Users management", description = "Operations related to user creation and retrieval")
-public class RouterRest {
+public class UserRouterRest {
 
     private final UserPaths userPaths;
     private final UserAPIHandler userHandler;

@@ -1,6 +1,6 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.api.config;
 
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.RouterRest;
+import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.routersRest.UserRouterRest;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.apiHandler.UserAPIHandler;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.handlers.loggingHelpers.HandlerLoggingSupport;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.api.mappers.UserApiMapper;
@@ -53,12 +53,12 @@ public class RouterTestConfig {
     }
 
     @Bean
-    public RouterRest routerRest(UserPaths userPaths, UserAPIHandler userAPIHandler) {
-        return new RouterRest(userPaths, userAPIHandler);
+    public UserRouterRest routerRest(UserPaths userPaths, UserAPIHandler userAPIHandler) {
+        return new UserRouterRest(userPaths, userAPIHandler);
     }
 
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(RouterRest routerRest) {
+    public RouterFunction<ServerResponse> routerFunction(UserRouterRest routerRest) {
         return routerRest.routerFunction();
     }
 }
