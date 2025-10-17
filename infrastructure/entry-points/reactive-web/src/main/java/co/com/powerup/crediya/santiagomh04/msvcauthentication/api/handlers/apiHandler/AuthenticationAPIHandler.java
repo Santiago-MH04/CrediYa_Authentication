@@ -37,6 +37,7 @@ public class AuthenticationAPIHandler {
             .map(this.userCredentialsMapper::toResponse)
             .flatMap(loginResponse -> ServerResponse
                 .created(uri)
+                    /*.status(HttpStatus.STATUS)*/  // In order to force to respond with any other status
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(loginResponse)
             );
