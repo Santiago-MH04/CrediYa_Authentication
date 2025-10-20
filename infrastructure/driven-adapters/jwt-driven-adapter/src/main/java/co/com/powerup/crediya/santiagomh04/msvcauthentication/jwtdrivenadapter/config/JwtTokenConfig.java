@@ -1,18 +1,33 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.jwtdrivenadapter.config;
 
-import io.jsonwebtoken.Jwts;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import javax.crypto.SecretKey;
 
-@ConfigurationProperties(prefix = "spring.application")
+@Configuration
+@RequiredArgsConstructor
 public class JwtTokenConfig {
-    public static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
-    public static final Long TOKEN_VALIDITY_SECONDS = 2_592_000L;
-    public static String name;
 
+    private final JwtTokenPreconfig jwtTokenPreconfig;
 
-    public static final String PREFIX_TOKEN = "Bearer ";
-    public static final String HEADER_AUTHORISATION = "Authorization";
-    public static final String CONTENT_TYPE = "application/json";
+    @Bean
+    public String tokenIssuer(){
+        return this.jwtTokenPreconfig.getName();
+    }
+
+    @Bean
+    public SecretKey jwtSecretKey() {
+        return Keys.hmacShaKeyFor(
+            java.util.Base64.getDecoder().decode(this.jwtTokenPreconfig.getSecretKey())
+        );
+    }
+
+    @Bean
+    public Long tokenValiditySeconds() {
+        return this.jwtTokenPreconfig.getTokenValiditySeconds();
+    }
 }

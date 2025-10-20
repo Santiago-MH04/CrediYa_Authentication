@@ -1,32 +1,38 @@
 package co.com.powerup.crediya.santiagomh04.msvcauthentication.jwtdrivenadapter.adapters;
 
-import co.com.powerup.crediya.santiagomh04.msvcauthentication.jwtdrivenadapter.config.JwtTokenConfig;
 import co.com.powerup.crediya.santiagomh04.msvcauthentication.model.authentication.gateways.JwtRepository;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import static co.com.powerup.crediya.santiagomh04.msvcauthentication.jwtdrivenadapter.config.JwtTokenConfig.*;
 
 @Component
+@RequiredArgsConstructor
 public class JWTTokenAdapter implements JwtRepository {
+
+    private final String tokenIssuer;
+    private final SecretKey jwtSecretKey;
+    private final Long tokenValiditySeconds;
 
     @Override
     public String generateToken(String email, String roleName) {
 
-        long tokenValidityMillis = TOKEN_VALIDITY_SECONDS * 1000;
+        long tokenValidityMillis = this.tokenValiditySeconds * 1000;
 
         return Jwts.builder()
             .subject(email)
-            .issuer(name)   //Just in case of failure, change it to msvc-authentication
+            .issuer(this.tokenIssuer)   //Just in case of failure, change it to msvc-authentication
             .issuedAt(Date.from(Instant.now()))
             .expiration(new Date(System.currentTimeMillis() + tokenValidityMillis))
             .claim("email", email)
             .claim("role", roleName)
-            .signWith(SECRET_KEY)
+            .signWith(this.jwtSecretKey)
             .compact();
     }
 
@@ -44,7 +50,7 @@ public class JWTTokenAdapter implements JwtRepository {
     public Boolean validateToken(String token) {
         /*try {*/
             Jws<Claims> claimsJws = Jwts.parser()
-                .verifyWith(SECRET_KEY)
+                .verifyWith(this.jwtSecretKey)
                 .build()
                 .parseSignedClaims(token);
 
@@ -70,7 +76,7 @@ public class JWTTokenAdapter implements JwtRepository {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-            .verifyWith(SECRET_KEY)
+            .verifyWith(this.jwtSecretKey)
             .build()
             .parseSignedClaims(token)
             .getPayload();

@@ -41,3 +41,10 @@ adapters:
     schema: "public"
     username: "postgres"
     password: "sasa"
+
+  #JWT Authentication
+authentication:
+  security:
+    name: "${ISSUER_NAME}"
+    secretKey: "${SECRET_KEY}"
+    tokenValiditySeconds: "${TOKEN_VALIDITY_SECONDS}"
