@@ -7,6 +7,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -27,7 +28,6 @@ public class AuthenticationAPIHandler {
     private final UserCredentialsMapper userCredentialsMapper;
 
     public Mono<ServerResponse> listenLoginUseCase(ServerRequest serverRequest) {
-        URI uri = serverRequest.uri();
         return serverRequest.bodyToMono(UserCredentialsRequestDTO.class)
             .flatMap(loginRequest -> {
                 Set<ConstraintViolation<UserCredentialsRequestDTO>> violations = this.validator.validate(loginRequest);
@@ -40,9 +40,10 @@ public class AuthenticationAPIHandler {
             .flatMap(this.authenticationUseCase::login)
             .map(this.userCredentialsMapper::toResponse)
             .flatMap(loginResponse -> ServerResponse
-                .created(uri)
+                .ok()
                     /*.status(HttpStatus.STATUS)*/  // In order to force to respond with any other status
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + loginResponse.token())
                 .bodyValue(loginResponse)
             );
     }
